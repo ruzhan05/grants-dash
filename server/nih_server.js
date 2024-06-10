@@ -1,4 +1,5 @@
-// completed scrapping grants whoose expiry after 1st june 2024
+//main code where the grants whose expiry is before May 2024 are not included
+
 const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
@@ -11,6 +12,7 @@ async function extractTableData() {
     await page.waitForSelector('tbody > tr', { timeout: 60000 });
 
     let data = [];
+    let docnumSet = new Set(); // To track unique document numbers
     let lastPageReached = false;
 
     // Function to scrape data from the current page
@@ -39,7 +41,14 @@ async function extractTableData() {
 
             return result;
         });
-        data = data.concat(pageData);
+
+        // Add unique data to the main data array
+        pageData.forEach(item => {
+            if (!docnumSet.has(item.docnum)) {
+                docnumSet.add(item.docnum);
+                data.push(item);
+            }
+        });
     }
 
     while (!lastPageReached) {
@@ -49,7 +58,7 @@ async function extractTableData() {
         const lastLi = liElements[liElements.length - 1];
         const className = await lastLi.evaluate(el => el.className);
 
-        if (className.includes('page-item') && className.includes('ng-scope') && className.includes('disabled')) {
+        if (className.includes('disabled')) {
             lastPageReached = true;
             console.log("Scraping Completed");
             break;
@@ -73,7 +82,7 @@ async function extractTableData() {
         }
     }
 
-    const filePath = path.join(__dirname, 'nihMan.json');
+    const filePath = path.join(__dirname, 'nihManNoDup.json');
     fs.writeFileSync(filePath, JSON.stringify(data, null, 2), 'utf8');
 
     await browser.close();
