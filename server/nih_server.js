@@ -4,7 +4,7 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 
-async function extractTableData() {
+async function extractNIHData() {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     const targetUrl = 'https://grants.nih.gov/funding/searchguide/index.html#/';
@@ -90,7 +90,7 @@ async function extractTableData() {
     return data;
 }
 
-extractTableData().then(data => {
+extractNIHData().then(data => {
 }).catch(err => {
     console.error(err);
 });
