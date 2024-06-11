@@ -94,3 +94,9 @@ extractNIHData().then(data => {
 }).catch(err => {
     console.error(err);
 });
+
+
+
+
+
+module.exports = { extractNIHData };

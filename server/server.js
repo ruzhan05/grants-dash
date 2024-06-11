@@ -3,14 +3,14 @@ const puppeteer = require('puppeteer');
 const fs = require('fs');
 const path = require('path');
 const cors = require('cors');
-
+const { extractNIHData } = require('./nih_server'); // imported the function to scrape NIH data
 const app = express();
 const port = 3001;
 
 // Enable CORS for all routes
 app.use(cors());
 
-async function extractTableData() {
+async function extractGrantGovData() {
   const browser = await puppeteer.launch({
     // headless: false,
     defaultViewport: null,
@@ -97,7 +97,8 @@ async function extractTableData() {
 
 app.get('/scrape', async (req, res) => {
   try {
-    await extractTableData();
+    await extractGrantGovData();
+    await extractNIHData(); // added the function to scrape NIH data
     res.status(200).send('Scraping completed and data saved to JSON file.');
   } catch (error) {
     console.error(error);
