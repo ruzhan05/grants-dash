@@ -1,75 +1,85 @@
-import React, { useEffect, useState } from 'react';
-import { Bar } from 'react-chartjs-2';
-import 'chart.js/auto'; // Import the Chart.js library
-import nihData from '../data/nihData.json'
+///main code 
 
 
-const GrantChart = () => {
-  const [grantsByMonth, setGrantsByMonth] = useState({});
+// import React, { useEffect, useState } from 'react';
+// import { Bar } from 'react-chartjs-2';
+// import 'chart.js/auto'; // Import the Chart.js library
+// import nihData from '../data/nihData.json'
 
-  useEffect(() => {
-    const countsByMonth = {};
 
-    // Count grants by month
-    nihData.forEach(grant => {
-      const monthName = new Intl.DateTimeFormat('en', { month: 'long' }).format(new Date(grant.Release_Date));
-      if (!countsByMonth[monthName]) {
-        countsByMonth[monthName] = 0;
-      }
-      countsByMonth[monthName]++;
-    });
+// const GrantChart = () => {
+//   const [grantsByMonth, setGrantsByMonth] = useState({});
 
-    // Set state with sorted months
-    setGrantsByMonth(countsByMonth);
-  }, []);
+//   useEffect(() => {
+//     const countsByMonth = {};
 
-  // Prepare data for chart
-  const months = Object.keys(grantsByMonth).sort((a, b) => {
-    return new Date('2020 ' + a) - new Date('2020 ' + b);
-  });
-  const counts = months.map(month => grantsByMonth[month]);
+//     // Count grants by month
+//     nihData.forEach(grant => {
+//       const monthName = new Intl.DateTimeFormat('en', { month: 'long' }).format(new Date(grant.Release_Date));
+//       if (!countsByMonth[monthName]) {
+//         countsByMonth[monthName] = 0;
+//       }
+//       countsByMonth[monthName]++;
+//     });
 
-  // Check if counts are populated correctly
-  console.log('Months:', months);
-  console.log('Counts:', counts);
+//     // Set state with sorted months
+//     setGrantsByMonth(countsByMonth);
+//   }, []);
 
-  const data = {
-    labels: months,
-    datasets: [{
-      label: 'Number of Grants',
-      data: counts,
-      backgroundColor: 'rgba(54, 162, 235, 0.6)',
-      borderColor: '	rgb(0,0,0)',
-      borderWidth: 1
-    }]
-  };
+//   // Prepare data for chart
+//   const months = Object.keys(grantsByMonth).sort((a, b) => {
+//     return new Date('2020 ' + a) - new Date('2020 ' + b);
+//   });
+//   const counts = months.map(month => grantsByMonth[month]);
 
-  const options = {
-    scales: {
-      y: {
-        beginAtZero: true,
-        title: {
-          display: true,
-          text: 'Number of Grants'
-        }
-      },
-      x: {
-        title: {
-          display: true,
-          text: 'Month'
-        }
-      }
-    }
-  };
+//   // Check if counts are populated correctly
+//   console.log('Months:', months);
+//   console.log('Counts:', counts);
 
-  return (
-    <div>
-      <Bar data={data} options={options} />
-    </div>
-  );
-};
+//   const data = {
+//     labels: months,
+//     datasets: [{
+//       label: 'Number of Grants',
+//       data: counts,
+//       backgroundColor: 'rgba(54, 162, 235, 0.6)',
+//       borderColor: '	rgb(0,0,0)',
+//       borderWidth: 1
+//     }]
+//   };
 
-export default GrantChart;
+//   const options = {
+//     scales: {
+//       y: {
+//         beginAtZero: true,
+//         title: {
+//           display: true,
+//           text: 'Number of Grants'
+//         }
+//       },
+//       x: {
+//         title: {
+//           display: true,
+//           text: 'Month'
+//         }
+//       }
+//     }
+//   };
+
+//   return (
+//     <div>
+//       <Bar data={data} options={options} />
+//     </div>
+//   );
+// };
+
+// export default GrantChart;
+
+
+
+
+////main code
+
+
 
 
 
@@ -192,3 +202,88 @@ export default GrantChart;
 //     </div>
 //   );
 // };
+
+
+
+
+
+
+
+import React, { useEffect, useState } from 'react';
+import { Bar } from 'react-chartjs-2';
+import 'chart.js/auto'; // Import the Chart.js library
+import axios from 'axios';
+
+const GrantChart = () => {
+  const [grantsByMonth, setGrantsByMonth] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get('http://localhost:3002/api/grants');
+        const data = response.data;
+
+        const countsByMonth = {};
+
+        // Count grants by month
+        data.forEach(grant => {
+          const monthName = new Intl.DateTimeFormat('en', { month: 'long' }).format(new Date(grant.releaseDate));
+          if (!countsByMonth[monthName]) {
+            countsByMonth[monthName] = 0;
+          }
+          countsByMonth[monthName]++;
+        });
+
+        // Set state with sorted months
+        setGrantsByMonth(countsByMonth);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // Prepare data for chart
+  const months = Object.keys(grantsByMonth).sort((a, b) => {
+    return new Date('2020 ' + a) - new Date('2020 ' + b);
+  });
+  const counts = months.map(month => grantsByMonth[month]);
+
+  const data = {
+    labels: months,
+    datasets: [{
+      label: 'Number of Grants',
+      data: counts,
+      backgroundColor: 'rgba(54, 162, 235, 0.6)',
+      borderColor: 'rgb(0,0,0)',
+      borderWidth: 1
+    }]
+  };
+
+  const options = {
+    scales: {
+      y: {
+        beginAtZero: true,
+        title: {
+          display: true,
+          text: 'Number of Grants'
+        }
+      },
+      x: {
+        title: {
+          display: true,
+          text: 'Month'
+        }
+      }
+    }
+  };
+
+  return (
+    <div>
+      <Bar data={data} options={options} />
+    </div>
+  );
+};
+
+export default GrantChart;

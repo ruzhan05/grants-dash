@@ -73,43 +73,70 @@
 
 
 // src/PieChart.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Pie } from 'react-chartjs-2';
-import { processData } from '../utils/processPieData';
-import data from '../data/nihData.json'; // Import the JSON data
+import axios from 'axios';
+import { processData } from '../utils/processPieData'; // Ensure this path is correct
+import { Box } from '@mui/material';
 
-const PieChart = () => {
-  const { labels, values } = processData(data);
+const PieChart = ({ width = 'auto', height = '40%' }) => {
+  const [chartData, setChartData] = useState(null);
 
-  const chartData = {
-    labels,
-    datasets: [
-      {
-        data: values,
-        backgroundColor: [
-          'rgba(255, 99, 132, 0.2)',
-          'rgba(54, 162, 235, 0.2)',
-          'rgba(255, 206, 86, 0.6)',
-          'rgba(255, 159, 64, 0.6)',
-          'rgba(75, 192, 192, 0.6)',
-          // Add more colors if needed
-        ],
-        borderColor: [
-          'rgba(255, 99, 132, 1)',
-          'rgba(54, 162, 235, 1)',
-          // Add more border colors if needed
-        ],
-        borderWidth: 1,
-      },
-    ],
-  };
+  useEffect(() => {
+    axios.get('http://localhost:3002/api/grants')
+      .then((response) => {
+        const { labels, values } = processData(response.data);
+        setChartData({
+          labels,
+          datasets: [
+            {
+              data: values,
+              backgroundColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 235, 205, 1)',
+                // Add more colors if needed
+              ],
+              borderColor: [
+                'rgba(255, 99, 132, 1)',
+                'rgba(54, 162, 235, 1)',
+                'rgba(255, 206, 86, 1)',
+                'rgba(255, 159, 64, 1)',
+                'rgba(75, 192, 192, 1)',
+                'rgba(255, 235, 205, 1)',
+                // Add more border colors if needed
+              ],
+              borderWidth: 4,
+            },
+          ],
+        });
+      })
+      .catch((error) => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
+  if (!chartData) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <div>
-      <h2>Grants by Parent Organization</h2>
-      <Pie data={chartData} />
+    <div style={{ alignItems: 'center', justifyContent: 'center' }}>
+      <div style={{ width, height, margin: 'auto', textAlign: 'center' }}>
+        <h1>Grants offered by Funding Organizations</h1>
+        <Pie data={chartData} options={{ maintainAspectRatio: true, aspectRatio: 1 }} />
+
+
+      </div>
     </div>
+
+
+
   );
 };
 
 export default PieChart;
+

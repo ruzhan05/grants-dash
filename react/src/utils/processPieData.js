@@ -2,7 +2,7 @@
 
 export const processData = (data) => {
     const counts = data.reduce((acc, grant) => {
-        const parentOrg = grant.Organization;
+        const parentOrg = grant.organization;
         acc[parentOrg] = (acc[parentOrg] || 0) + 1;
         return acc;
     }, {});
