@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import axios from 'axios';
-import sampleData from '../data/grantgovDummy.json'; // Adjust the path if needed
 
 const GDoughnutChart = ({ width = 'auto', height = '40%' }) => {
     const [monthlyCounts, setMonthlyCounts] = useState(Array(12).fill(0));
