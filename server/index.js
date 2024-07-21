@@ -174,18 +174,35 @@ app.get('/nihlist', async (req, res) => {
 
 
 
+app.delete('/nihlist/:grantId', async (req, res) => {
+    try {
+        const { grantId } = req.params;
+        const deletedGrant = await GrantModel.findByIdAndDelete(grantId);
+
+        if (!deletedGrant) {
+            return res.status(404).json({ message: 'Grant not found' });
+        }
+
+        res.status(200).json({ message: 'Grant deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting grant:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
+    }
+});
+
+
 //api to delete the nihlist grant
 //(not working)
 
-app.delete('/nihlist/:grantId', async (req, res) => {
-    try {
-        const userId = req.params.grantId;
-        await GrantModel.findByIdAndDelete(userId);
-        res.status(200).send({ message: 'User deleted successfully' });
-    } catch (error) {
-        res.status(500).send({ message: 'Error deleting user', error });
-    }
-});
+// app.delete('/nihlist/:grantId', async (req, res) => {
+//     try {
+//         const userId = req.params.grantId;
+//         await GrantModel.findByIdAndDelete(userId);
+//         res.status(200).send({ message: 'User deleted successfully' });
+//     } catch (error) {
+//         res.status(500).send({ message: 'Error deleting user', error });
+//     }
+// });
 
 //working
 app.get('/api/gggrants', async (req, res) => {

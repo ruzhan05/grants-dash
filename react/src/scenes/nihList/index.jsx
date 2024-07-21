@@ -7,6 +7,8 @@ import Header from "../../components/Header";
 import Sidebar from "../global/Sidebar";
 import Topbar from "../global/Topbar";
 import axios from 'axios';
+import { jwtDecode } from "jwt-decode"
+
 
 const NihList = () => {
   const [isSidebar, setIsSidebar] = useState(true);
@@ -17,6 +19,9 @@ const NihList = () => {
   const [starredGrants, setStarredGrants] = useState([]);
   const userId = "6682563898e8d16602517db8"; // Replace with the actual user ID
   const colors = tokens(theme.palette.mode);
+  const token = localStorage.getItem("token");
+  const [admin, setAdmin] = useState(false);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -33,6 +38,17 @@ const NihList = () => {
 
     fetchData();
   }, [userId]);
+
+
+  // Decode the token to get the username
+  React.useEffect(() => {
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      setAdmin(decodedToken.isAdmin);
+      console.log(decodedToken);
+      console.log(decodedToken.isAdmin);
+    }
+  }, [token]);
 
   const handleStarClick = async (grantId) => {
     try {
@@ -51,7 +67,7 @@ const NihList = () => {
 
   const handleDeleteClick = async (grantId) => {
     try {
-      await axios.delete(`http://localhost:3002//nihlist/${grantId}`);
+      await axios.delete(`http://localhost:3002/nihlist/${grantId}`);
       setData(data.filter(grant => grant._id !== grantId));
     } catch (error) {
       console.error('Error deleting grant:', error);
@@ -88,15 +104,19 @@ const NihList = () => {
     },
 
     // added new column for delete button
+
     {
+
       field: "action",
       headerName: "Action",
       flex: 1,
       renderCell: (params) => (
-        <DeleteIcon
-          style={{ cursor: 'pointer' }}
-          onClick={() => handleDeleteClick(params.id)}
-        />
+        admin ? (
+          <DeleteIcon
+            style={{ cursor: 'pointer' }}
+            onClick={() => handleDeleteClick(params.id)}
+          />
+        ) : "No actions available"
       ),
     },
   ];
