@@ -1,162 +1,5 @@
-// import React, { useState, useEffect } from 'react';
-// import { Box, TextField, Checkbox, useTheme } from "@mui/material";
-// import { DataGrid } from "@mui/x-data-grid";
-// import { tokens } from "../../theme";
-// import Header from "../../components/Header";
-// import Sidebar from "../global/Sidebar";
-// import Topbar from "../global/Topbar";
-// import axios from 'axios';
-
-// const NihList = ({ userId }) => {
-//   const [isSidebar, setIsSidebar] = useState(true);
-//   const [searchQuery, setSearchQuery] = useState("");
-//   const [rows, setRows] = useState([]);
-//   const [starredGrants, setStarredGrants] = useState([]);
-//   const theme = useTheme();
-//   const colors = tokens(theme.palette.mode);
-
-//   useEffect(() => {
-//     // Fetch the grants and user's starred grants
-//     const fetchData = async () => {
-//       try {
-//         const grantsResponse = await axios.get('http://localhost:3002/nihlist');
-//         // const userResponse = await axios.get(`http://localhost:3002/api/users/${userId}`);
-//         setRows(grantsResponse.data);
-//         // setStarredGrants(userResponse.data.starredGrants);
-//       } catch (error) {
-//         console.error('Error fetching data', error);
-//       }
-//     };
-
-//     fetchData();
-//   }, [userId]);
-
-//   const columns = [
-//     {
-//       field: "starred",
-//       headerName: "Star",
-//       flex: 0.5,
-//       renderCell: (params) => (
-//         <Checkbox
-//           checked={starredGrants.includes(params.row._id)}
-//           onChange={() => handleStarToggle(params.row._id)}
-//         />
-//       ),
-//     },
-//     { field: "title", headerName: "Title", flex: 2 },
-//     { field: "releaseDate", headerName: "Release Date", flex: 1 },
-//     { field: "organization", headerName: "Organization", flex: 1 },
-//     { field: "expiryDate", headerName: "Expiry Date", flex: 1 },
-//     { field: "docnum", headerName: "Document Number", flex: 1 },
-//     {
-//       field: "link",
-//       headerName: "URL",
-//       flex: 2,
-//       renderCell: (params) => (
-//         <a href={params.value} target="_blank" rel="noopener noreferrer">
-//           {params.value}
-//         </a>
-//       ),
-//     },
-//   ];
-
-//   const handleStarToggle = async (grantId) => {
-//     try {
-//       const response = await axios.post('http://localhost:3002/api/star', {
-//         userId,
-//         grantId,
-//       });
-//       setStarredGrants(response.data.starredGrants);
-//     } catch (error) {
-//       console.error('Error starring/un-starring grant', error);
-//     }
-//   };
-
-//   const handleSearch = (event) => {
-//     setSearchQuery(event.target.value);
-//   };
-
-//   const filteredData = rows.filter((row) => {
-//     return (
-//       row.title?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-//       row.releaseDate?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-//       row.organization?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-//       row.expiryDate?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-//       row.docnum?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-//       row.link?.toLowerCase().includes(searchQuery.toLowerCase())
-//     );
-//   });
-
-//   return (
-//     <div className="app">
-//       <Sidebar isSidebar={isSidebar} />
-//       <main className="content">
-//         <Topbar setIsSidebar={setIsSidebar} />
-//         <Box m="20px">
-//           <Header title="Grants Offered" subtitle="By NIH" />
-//           <Box m="20px 0">
-//             <TextField
-//               label="Search"
-//               variant="outlined"
-//               fullWidth
-//               value={searchQuery}
-//               onChange={handleSearch}
-//             />
-//           </Box>
-//           <Box
-//             m="40px 0 0 0"
-//             height="75vh"
-//             sx={{
-//               "& .MuiDataGrid-root": {
-//                 border: "none",
-//               },
-//               "& .MuiDataGrid-cell": {
-//                 borderBottom: "none",
-//               },
-//               "& .MuiDataGrid-columnHeaders": {
-//                 borderTop: "2px solid",
-//                 backgroundColor: colors.blueAccent[700],
-//                 borderBottom: "2px solid",
-//               },
-//               "& .MuiDataGrid-virtualScroller": {
-//                 backgroundColor: colors.primary[400],
-//               },
-//               "& .MuiDataGrid-footerContainer": {
-//                 borderTop: "none",
-//                 backgroundColor: colors.blueAccent[700],
-//               },
-//               "& .MuiCheckbox-root": {
-//                 color: `${colors.greenAccent[200]} !important`,
-//               },
-//             }}
-//           >
-//             <DataGrid
-//               rows={filteredData}
-//               columns={columns}
-//               getRowId={(row) => row._id}
-//             />
-//           </Box>
-//         </Box>
-//       </main>
-//     </div>
-//   );
-// };
-
-// export default NihList;
-
-
-
-
-
-
-
-
-
-
-
-
-
 import React, { useState, useEffect } from 'react';
+import DeleteIcon from '@mui/icons-material/Delete';
 import { Box, TextField, useTheme, Button } from "@mui/material";
 import { DataGrid } from "@mui/x-data-grid";
 import { tokens } from "../../theme";
@@ -203,6 +46,18 @@ const NihList = () => {
     }
   };
 
+
+  // for deleting grants (not working)
+
+  const handleDeleteClick = async (grantId) => {
+    try {
+      await axios.delete(`http://localhost:3002//nihlist/${grantId}`);
+      setData(data.filter(grant => grant._id !== grantId));
+    } catch (error) {
+      console.error('Error deleting grant:', error);
+    }
+  };
+
   const columns = [
     { field: "title", headerName: "Title", flex: 2 },
     { field: "releaseDate", headerName: "Release Date", flex: 1 },
@@ -228,6 +83,19 @@ const NihList = () => {
           type="checkbox"
           checked={starredGrants.includes(params.id)}
           onChange={() => handleStarClick(params.id)}
+        />
+      ),
+    },
+
+    // added new column for delete button
+    {
+      field: "action",
+      headerName: "Action",
+      flex: 1,
+      renderCell: (params) => (
+        <DeleteIcon
+          style={{ cursor: 'pointer' }}
+          onClick={() => handleDeleteClick(params.id)}
         />
       ),
     },

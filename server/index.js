@@ -11,7 +11,7 @@ const { extractNIHData } = require('./ScrapingModule/nih_server'); // imported t
 const { extractGrantGovData } = require('./ScrapingModule/Grantgovserver');
 const GrantModel = require('./models/Grants')
 const GGGrantModel = require('./models/gggrants');
-const {secretKey} = require('./jwtConfig')
+const { secretKey } = require('./jwtConfig')
 const jwt = require('jsonwebtoken');
 
 
@@ -172,6 +172,21 @@ app.get('/nihlist', async (req, res) => {
     }
 });
 
+
+
+//api to delete the nihlist grant
+//(not working)
+
+app.delete('/nihlist/:grantId', async (req, res) => {
+    try {
+        const userId = req.params.grantId;
+        await GrantModel.findByIdAndDelete(userId);
+        res.status(200).send({ message: 'User deleted successfully' });
+    } catch (error) {
+        res.status(500).send({ message: 'Error deleting user', error });
+    }
+});
+
 //working
 app.get('/api/gggrants', async (req, res) => {
     try {
@@ -218,7 +233,7 @@ app.post('/api/user/star-grant', async (req, res) => {
 
 app.get('/scrape', async (req, res) => {
     try {
-        await extractGrantGovData(); 
+        await extractGrantGovData();
         res.status(200).send('Scraping completed and data saved to JSON file.');
     } catch (error) {
         console.error(error);
@@ -271,27 +286,27 @@ app.get('/api/gggrants/count', async (req, res) => {
         res.json({ count });
     } catch (error) {
         res.stat
-        
-app.post('/getUserData', async (req, res) => {
-    const { token } = req.body;
 
-    try {
-        const decoded = jwt.verify(token, secretKey); // Use secretKey to verify token
-        const user = await UserModel.findOne({ email: decoded.email }).populate('starredGrants');
+        app.post('/getUserData', async (req, res) => {
+            const { token } = req.body;
 
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
+            try {
+                const decoded = jwt.verify(token, secretKey); // Use secretKey to verify token
+                const user = await UserModel.findOne({ email: decoded.email }).populate('starredGrants');
 
-        res.json({
-            name: user.name,
-            email: user.email,
-            starredGrants: user.starredGrants,
-        });
-    } catch (error) {
-        res.status(400).json({ message: 'Invalid token' });
-    }
-});us(500).json({ error: error.message });
+                if (!user) {
+                    return res.status(404).json({ message: 'User not found' });
+                }
+
+                res.json({
+                    name: user.name,
+                    email: user.email,
+                    starredGrants: user.starredGrants,
+                });
+            } catch (error) {
+                res.status(400).json({ message: 'Invalid token' });
+            }
+        }); us(500).json({ error: error.message });
     }
 });
 
