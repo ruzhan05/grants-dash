@@ -4,6 +4,8 @@ A web application system that uses Puppeteer for web scrapping to extract data f
 <p display = "flex">
   <img src="https://download.logo.wine/logo/React_(web_framework)/React_(web_framework)-Logo.wine.png" width = "50">
   <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRl1-DO8OvTFnSLUsTy5PP0DsHT_oeRCU88A&s" width = "50">
+  <img src="https://user-images.githubusercontent.com/10379601/29446482-04f7036a-841f-11e7-9872-91d1fc2ea683.png" width = "50">
+  <img src="https://webimages.mongodb.com/_com_assets/cms/koffe5uvv0mg34ttt-horizontal_white.svg?auto=format%252Ccompress" width = "50">
 </p>
 
 ## 🎥 Project Demo  
