@@ -2,10 +2,10 @@ A web application system that uses Puppeteer for web scrapping to extract data f
 
 <u>Technologies used:</u> **React, NodeJs, Puppeteer, ExpressJs, MongoDB.**
 <p display = "flex" gap = "1%">
-  <img src="https://download.logo.wine/logo/React_(web_framework)/React_(web_framework)-Logo.wine.png" width = "50" height = "30">
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRl1-DO8OvTFnSLUsTy5PP0DsHT_oeRCU88A&s" width = "50" height = "30">
-  <img src="https://user-images.githubusercontent.com/10379601/29446482-04f7036a-841f-11e7-9872-91d1fc2ea683.png" width = "50" height = "30">
-  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUHX9fHSFVAkctUI3xKDaPIOz_xJseIIi09g&s" width = "50" height = "30">
+  <img src="https://download.logo.wine/logo/React_(web_framework)/React_(web_framework)-Logo.wine.png" width = "50" height = "auto">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRRl1-DO8OvTFnSLUsTy5PP0DsHT_oeRCU88A&s" width = "50" height = "auto">
+  <img src="https://user-images.githubusercontent.com/10379601/29446482-04f7036a-841f-11e7-9872-91d1fc2ea683.png" width = "50" height = "auto">
+  <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUHX9fHSFVAkctUI3xKDaPIOz_xJseIIi09g&s" width = "50" height = "auto">
 </p>
 
 ## 🎥 Project Demo  
