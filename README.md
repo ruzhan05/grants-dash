@@ -2,7 +2,7 @@ A web application system that uses Puppeteer for web scrapping to extract data f
 
 <u>Technologies used:</u> **React, NodeJs, Puppeteer, ExpressJs, MongoDB.**
 <p align="center">
-  <img src="https://download.logo.wine/logo/React_(web_framework)/React_(web_framework)-Logo.wine.png">
+  <img src="https://download.logo.wine/logo/React_(web_framework)/React_(web_framework)-Logo.wine.png" width = "400">
 </p>
 
 ## 🎥 Project Demo  
