@@ -2,5 +2,7 @@ A web application system that uses Puppeteer for web scrapping to extract data f
 
 Technologies used: **React, NodeJs, Puppeteer, ExpressJs, MongoDB.**
 
+## 🎥 Project Demo  
+[![Watch the video](https://img.youtube.com/vi/XM3AlPJyB5k/0.jpg)](https://youtu.be/XM3AlPJyB5k)  
+[Click here to watch the demo](https://youtu.be/XM3AlPJyB5k)
 
-<b><i>Project Demo:</i></b>
