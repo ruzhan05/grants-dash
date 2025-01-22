@@ -28,55 +28,7 @@ mongoose.connect("mongodb://localhost:27017/grants")
 app.post('/login', loginController.login);
 
 
-//main login code with validation without token
 
-// ----------------------------------------important-----------------------------------------
-// app.post("/login", (req, res) => {
-//     const { name, password } = req.body;
-//     //original
-
-//     // UserModel.findOne({ name: name })
-
-//     UserModel.findOne({ name: name })
-// .then(user => {
-//     if (user) {
-//         if (user.password === password) {
-//             const role = (user.name === "admin1234") ? "admin" : "user";
-//             res.json({ message: "Success", role: role });
-//         } else {
-//             res.json("The password is incorrect");
-//         }
-//     } else {
-//         res.json("No record exists");
-//     }
-// })
-
-
-
-// for checking the hashed password (works with aiman31) 
-//         .then(user => {
-//             if (user) {
-//                 bcrypt.compare(password, user.password)
-//                     .then(match => {
-//                         if (match) {
-//                             const role = (user.name === "admin1234") ? "admin" : "user";
-//                             res.json({ message: "Success", role: role });
-//                         } else {
-//                             res.json({ message: "The password is incorrect" });
-//                         }
-//                     })
-//             }
-//         })
-// })
-//comment out for testing auth
-
-// !!!!!!!important!!!!!!!!!!!!!!----for registration--------------------------------------------------------------
-
-// app.post('/register', (req, res) => {
-//     UserModel.create(req.body)
-//         .then(users => res.json(users))
-//         .catch(err => res.json(err))
-// })
 
 //testing auth (working(password hashed))
 app.post('/register', signupController.createUser);
@@ -190,19 +142,6 @@ app.delete('/nihlist/:grantId', async (req, res) => {
     }
 });
 
-
-//api to delete the nihlist grant
-//(not working)
-
-// app.delete('/nihlist/:grantId', async (req, res) => {
-//     try {
-//         const userId = req.params.grantId;
-//         await GrantModel.findByIdAndDelete(userId);
-//         res.status(200).send({ message: 'User deleted successfully' });
-//     } catch (error) {
-//         res.status(500).send({ message: 'Error deleting user', error });
-//     }
-// });
 
 //working
 app.get('/api/gggrants', async (req, res) => {

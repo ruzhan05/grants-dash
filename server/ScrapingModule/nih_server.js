@@ -103,28 +103,6 @@ async function extractNIHData() {
         const lastLi = liElements[liElements.length - 1];
 
 
-
-
-
-
-        // const liElements = await page.$$('ul > li.page-item.ng-scope');
-        // page-item ng-scope active
-        // const lastLi = liElements[liElements.length - 1];
-        // const lastLi2 = liElements[liElements.length - 2];  /// 2nd last li tag
-        //new for pg number
-        // const pageNumber = await page.evaluate(element => {
-        //     return element.querySelector('a').textContent.trim();
-        // }, lastLi2);
-        // console.log(pageNumber);
-
-        // const className = await lastLi.evaluate(el => el.className);
-
-        // if (className.includes('disabled')) {
-
-
-        // Check if the page number is 696
-
-
         try {
             await page.evaluate(element => {
                 element.scrollIntoView();

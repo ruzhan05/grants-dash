@@ -4,7 +4,6 @@ import { Box, useTheme, Button } from '@mui/material';
 import { DataGrid, GridActionsCellItem } from '@mui/x-data-grid';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { tokens } from '../../theme';
-import CheckBoxIcon from '@mui/icons-material/CheckBox';
 import Header from '../../components/Header';
 import Sidebar from '../../scenes/global/Sidebar';
 import Topbar from '../../scenes/global/Topbar';

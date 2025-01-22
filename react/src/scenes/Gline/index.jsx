@@ -13,7 +13,7 @@ const GLine = () => {
         if (!token) {
 
             navigate("/login");
-            alert("You need to login first")
+             alert("You need to login first")
         }
     }, [token, navigate]);
     return (
